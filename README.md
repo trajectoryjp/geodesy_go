@@ -2,7 +2,7 @@
 
 Go module geodesy provides the coordinate system conversion and the distance calculation.
 The default coordinate system is WGS84.
-This wraps [github.com/wroge/wgs84](github.com/wroge/wgs84) with object orientation,
+This wraps [github.com/wroge/wgs84](https://github.com/wroge/wgs84) with object orientation,
 therefore you can change the coordinate system with its system.
 
 ## Prerequisites
