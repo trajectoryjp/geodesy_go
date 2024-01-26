@@ -8,7 +8,15 @@ import (
 	"github.com/go-gl/mathgl/mgl64"
 )
 
-// point source: https://www.ngs.noaa.gov/NCAT/
+// Original point data source: https://www.ngs.noaa.gov/NCAT/
+// (Note that we are not affiliated with NOAA and we do not claim copyright for their information we use.
+// Please see the disclaimer https://www.ngs.noaa.gov/disclaimer.html for more detials.)
+
+// var errorCriterion an error criterion of 1 meter
+var errorCriterion float64 = 1
+
+// var movingDistance is the distance in meters each point will be moved for tests
+var movingDistance float64 = 1
 
 func TestGeodeticFromGeocentric90(t *testing.T) {
 
@@ -71,17 +79,12 @@ func testGeocentricFromGeodetic(t *testing.T, point Geocentric) {
 	pointOrigin2 := GeocentricFromGeodetic(pointGeodetic)
 
 	// measure distance between pointOrigin1 and pointOrigin2
-	absoluteDifference := mgl64.Vec3{
-		math.Abs(pointOrigin1[0] - pointOrigin2[0]),
-		math.Abs(pointOrigin1[1] - pointOrigin2[1]),
-		math.Abs(pointOrigin1[2] - pointOrigin2[2]),
-	}
-	distance := absoluteDifference.Len()
+	absoluteDifference := mgl64.Vec3(pointOrigin1).Sub(mgl64.Vec3(pointOrigin2))
 
-	// validate the distance
-	errorVal := math.Abs(distance)
+	// the error value is the length between pointOrigin1 and pointOrigin2.
+	errorVal := absoluteDifference.Len()
 
-	if errorVal > 1 {
+	if errorVal > errorCriterion {
 		t.Fatalf("The error value (%2.16f) for on point %v is too large\n", errorVal, point)
 	}
 
@@ -105,11 +108,11 @@ func testGeodeticFromGeocentric(t *testing.T, point Geocentric) {
 	// make 3 sets of two cartesian (geocentric) points, the second of each moved by 1m in each
 	// of x, y, and z directions
 	pointOrigin := point
-	pointOriginX := Geocentric{*pointOrigin.X() + 1, *pointOrigin.Y(), *pointOrigin.Z()}
+	pointOriginX := Geocentric{*pointOrigin.X() + movingDistance, *pointOrigin.Y(), *pointOrigin.Z()}
 
-	pointOriginY := Geocentric{*pointOrigin.X(), *pointOrigin.Y() - 1, *pointOrigin.Z()}
+	pointOriginY := Geocentric{*pointOrigin.X(), *pointOrigin.Y() - movingDistance, *pointOrigin.Z()}
 
-	pointOriginZ := Geocentric{*pointOrigin.X(), *pointOrigin.Y(), *pointOrigin.Z() + 1}
+	pointOriginZ := Geocentric{*pointOrigin.X(), *pointOrigin.Y(), *pointOrigin.Z() + movingDistance}
 
 	movedPoints := []Geocentric{pointOriginX, pointOriginY, pointOriginZ}
 
@@ -131,14 +134,15 @@ func testGeodeticFromGeocentric(t *testing.T, point Geocentric) {
 		// save in sphereical struct
 		pointSpherical := Spherical(pointGeodetic)
 
-		// add to measure[1] and measure distance
+		// use .GetLengthTo() to measure distance and append to distances
 		distance := pointOriginSpherical.GetLengthTo(pointSpherical)
 
 		distances = append(distances, distance)
 
-		// check that the error value is less than 1m
-		errorVal := math.Abs(distance - 1)
-		if errorVal > 1 {
+		// check that the error value is less than errorCriterion meters. We expect the difference
+		// in distance to be movingDistance meter, so subtract movingDistance from distance
+		errorVal := math.Abs(distance - movingDistance)
+		if errorVal > errorCriterion {
 			t.Fatalf("The error value for on point %v is too large\n", point)
 		}
 
