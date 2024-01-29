@@ -171,3 +171,66 @@ All error values are less than or equal to 1 (PASS)
 		errorVals[0], errorVals[1], errorVals[2],
 	)
 }
+
+func TestREADME(t *testing.T) {
+	sumida := Geodetic{
+		139.78645, // longitude
+		35.67254,  // latitude
+		0,         // altitude
+	}
+
+	sumidaGeocentric := GeocentricFromGeodetic(sumida)
+
+	sumidaGeodetic := GeodeticFromGeocentric(sumidaGeocentric)
+
+	tokyoBay := Geodetic{
+		139.76829,
+		35.64328,
+		0,
+	}
+
+	// convert both to Spherical
+	sumidaSpherical := Spherical(sumida)
+	tokyoBaySpherical := Spherical(tokyoBay)
+
+	// calculate the distance
+	distance := sumidaSpherical.GetLengthTo(tokyoBaySpherical)
+
+	ToLocalFunction := sumida.GenerateLocalFromGeocentric()
+
+	sumidaLocal := ToLocalFunction(sumidaGeocentric)
+	tokyoBayLocal := ToLocalFunction(GeocentricFromGeodetic(tokyoBay))
+
+	differenceVector := mgl64.Vec3(sumidaLocal).Sub(mgl64.Vec3(tokyoBayLocal))
+	distance2 := differenceVector.Len()
+	difference := math.Abs(distance2 - distance)
+
+	fmt.Printf(
+		`sumida: %2.16f,
+sumidaGeocentric: %2.16f, 
+sumidaGeodetic: %2.16f,
+tokyoBay: %2.16f,
+sumidaSpherical: %2.16f,
+tokyoBaySpherical: %2.16f,
+distance: %2.16f,
+sumidaLocal: %2.16f,
+tokyoBayLocal: %2.16f,
+differenceVector: %2.16f,
+distance2: %2.16f,
+difference: %2.16f,
+`,
+		sumida,
+		sumidaGeocentric,
+		sumidaGeodetic,
+		tokyoBay,
+		sumidaSpherical,
+		tokyoBaySpherical,
+		distance,
+		sumidaLocal,
+		tokyoBayLocal,
+		differenceVector,
+		distance2,
+		difference,
+	)
+
+}
