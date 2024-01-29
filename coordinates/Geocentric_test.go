@@ -13,10 +13,10 @@ import (
 // Please see the disclaimer https://www.ngs.noaa.gov/disclaimer.html for more detials.)
 
 // var errorCriterion an error criterion of 1 meter
-var errorCriterion float64 = 1
+const errorCriterion float64 = 1
 
 // var movingDistance is the distance in meters each point will be moved for tests
-var movingDistance float64 = 1
+const movingDistance float64 = 1
 
 func TestGeodeticFromGeocentric90(t *testing.T) {
 
