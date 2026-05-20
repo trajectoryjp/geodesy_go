@@ -1,5 +1,8 @@
 # geodesy
 
+[![Docs](https://pkg.go.dev/badge/github.com/trajectoryjp/geodesy_go.svg)](https://pkg.go.dev/github.com/trajectoryjp/geodesy_go)
+[![Go Report Card](https://goreportcard.com/badge/github.com/trajectoryjp/geodesy_go)](https://goreportcard.com/report/github.com/trajectoryjp/geodesy_go)
+
 Go module geodesy provides the coordinate system conversion and the distance calculation.
 The default coordinate system is WGS84.
 This wraps [github.com/wroge/wgs84](https://github.com/wroge/wgs84) with object orientation,
