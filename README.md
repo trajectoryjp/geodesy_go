@@ -1,12 +1,7 @@
 # geodesy
 
-[![Go Version](https://img.shields.io/badge/go-1.20%2B-00ADD8)](https://go.dev)
-[![Build](https://github.com/trajectoryjp/geodesy_go/actions/workflows/go.yml/badge.svg)](https://github.com/trajectoryjp/geodesy_go/actions/workflows/go.yml)
-[![Coverage](https://codecov.io/gh/trajectoryjp/geodesy_go/branch/main/graph/badge.svg)](https://codecov.io/gh/trajectoryjp/geodesy_go)
-[![License](https://img.shields.io/github/license/trajectoryjp/geodesy_go)](LICENSE)
-[![Release](https://img.shields.io/github/v/release/trajectoryjp/geodesy_go)](https://github.com/trajectoryjp/geodesy_go/releases)
-[![Go Report Card](https://goreportcard.com/badge/github.com/trajectoryjp/geodesy_go)](https://goreportcard.com/report/github.com/trajectoryjp/geodesy_go)
 [![Docs](https://pkg.go.dev/badge/github.com/trajectoryjp/geodesy_go.svg)](https://pkg.go.dev/github.com/trajectoryjp/geodesy_go)
+[![Go Report Card](https://goreportcard.com/badge/github.com/trajectoryjp/geodesy_go)](https://goreportcard.com/report/github.com/trajectoryjp/geodesy_go)
 
 Go module geodesy provides the coordinate system conversion and the distance calculation.
 The default coordinate system is WGS84.
