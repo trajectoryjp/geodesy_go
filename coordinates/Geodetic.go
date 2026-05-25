@@ -10,6 +10,7 @@ import (
 )
 
 // Geodetic is a type for geodetic coordinates.
+// The order for geodetic points should be {Longitude, Latitude, Altitude}
 type Geodetic mgl64.Vec3
 
 // GeodeticReferenceSystem is the reference system for Geodetic.
@@ -17,6 +18,8 @@ type Geodetic mgl64.Vec3
 var GeodeticReferenceSystem = wgs84.LonLat()
 
 // GeodeticFromGeocentric converts geocentric coordinates to geodetic coordinates.
+// A Geodetic object in the order of {X, Y, Z} should be entered and {Longitude, Latitude, Altitude}
+// will be returned
 func GeodeticFromGeocentric(geocentric Geocentric) (geodetic Geodetic) {
 	geodetic[0], geodetic[1], geodetic[2] = GeocentricReferenceSystem.To(GeodeticReferenceSystem)(geocentric[0], geocentric[1], geocentric[2])
 	return

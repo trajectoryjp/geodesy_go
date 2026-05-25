@@ -5,13 +5,15 @@ import (
 	"github.com/wroge/wgs84"
 )
 
-// Geocentric is a type for geocentric coordinates.
+// Geocentric is a type for geocentric coordinates. The {X, Y, Z} order should be followed.
 type Geocentric mgl64.Vec3
 
 // GeocentricReferenceSystem is the reference system for Geocentric.
 var GeocentricReferenceSystem = wgs84.GeocentricReferenceSystem{}
 
 // GeocentricFromGeodetic converts geodetic coordinates to geocentric coordinates.
+// The order for the point to convert should be {Longitude, Latitude, Altitude} and
+// {X, Y, Z} will be returned.
 func GeocentricFromGeodetic(geodetic Geodetic) (geocentric Geocentric) {
 	geocentric[0], geocentric[1], geocentric[2] = GeodeticReferenceSystem.To(GeocentricReferenceSystem)(geodetic[0], geodetic[1], geodetic[2])
 	return
